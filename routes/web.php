@@ -6,6 +6,8 @@ use App\Http\Controllers\Panel\HomeController;
 use App\Http\Controllers\Panel\OfferController;
 use App\Http\Controllers\Panel\SettingsController;
 use App\Http\Controllers\Panel\UserController;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -63,3 +65,15 @@ Route::prefix('panel/')->as('panel.')->middleware(['web', 'auth'])->group(
         );
     }
 );
+
+Route::get('/test', function () {
+    DB::table('users')->insert([
+        'name' => "admin",
+        'email' => "admin@haraj.com",
+        'password' => Hash::make("123456"),
+        "email_verified_at" => now(),
+        'phone' => "0599916672",
+        'type' => "admin",
+        'status' => "active",
+    ]);
+});
