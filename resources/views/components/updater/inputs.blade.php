@@ -58,7 +58,7 @@
                 @if ($input['search']) data-mdb-container="#{{ $updaterid }}" data-mdb-filter="true" @endif
                 {{ $input['disabled'] ? 'disabled' : '' }}>
                 @if (!$input['multiple'])
-                    <option></option>
+                    <option selected hidden></option>
                 @endif
                 @foreach ($input['options'] as $key => $option)
                     <option value="{{ $option }}">{{ $key }}
@@ -110,7 +110,7 @@
 
                 @foreach ($input['options'] as $title => $option)
                     @if (!$input['multiple'])
-                        <option></option>
+                        <option selected hidden></option>
                     @endif
                     <optgroup label="{{ __("$title") }}">
                         @foreach ($option as $key => $value)

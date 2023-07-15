@@ -5,7 +5,7 @@ return [
     "years" => "required|in:2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022",
     "regional-specifications" => "required|in:Gulf Specifications,American Specifications,Canadian Specifications,European Specifications,Japanese Specifications,Korean Specifications,Other Specifications",
     "fuel-types" => "required|in:Petrol,Diesel,Generator,Electric,Other",
-    "driving-hand" => "required|in:Left Hand,Right Hand",
+    "driving-hand" => ["required", "in:Left Hand,Right Hand"],
     "car-conditions" => "required|in:Excellent inside and out,No accidents with very minor defects,Little damage,all repaired,Normal damage and cracks,with some imperfections,A lot of spoilage and obvious damage to the body",
     "insurances" => "required|in:Yes,No,Not Applicable",
     "mechanical-conditions" => "required",

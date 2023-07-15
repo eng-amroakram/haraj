@@ -17,24 +17,24 @@ return new class extends Migration
             $table->string('title');
             $table->double('price')->default(0);
 
-            $table->enum('model', config('data.data.cars-models'));
-            $table->enum('year', config('data.years'));
+            $table->string('model');
+            $table->string('year');
             $table->string('km');
-            $table->enum('regional_specifications', config('data.data.regional-specifications'));
-            $table->enum('body_type', config('data.data.body-types'));
-            $table->enum('mechanical_condition', config('data.data.mechanical-conditions'));
-            $table->enum('car_conditions', config('data.data.car-conditions'));
-            $table->enum('seller_type', config('data.data.seller-types'));
-            $table->enum('transmission', config('data.data.transmissions-types'));
-            $table->enum('engine_power', config('data.data.engine-powers'));
+            $table->string('regional_specifications');
+            $table->string('body_type');
+            $table->string('mechanical_condition');
+            $table->string('car_conditions');
+            $table->string('seller_type');
+            $table->string('transmission');
+            $table->string('engine_power');
 
-            $table->enum('insurance', config("data.data.insurances"));
-            $table->enum('outer_color', config("data.data.colors"));
-            $table->enum('inner_color', config("data.data.colors"));
-            $table->enum('door_numbers', config("data.data.doors-number"));
-            $table->enum('seat_numbers', config("data.data.seats-number"));
-            $table->enum('cylinders', config("data.data.cylinders"));
-            $table->enum('fuel_type', config("data.data.fuel-types"));
+            $table->string('insurance');
+            $table->string('outer_color');
+            $table->string('inner_color');
+            $table->string('door_numbers');
+            $table->string('seat_numbers');
+            $table->string('cylinders');
+            $table->string('fuel_type');
             $table->string('technical_features');
             $table->enum('driving_hand', config("data.data.driving-hand"));
             $table->json('additional_features'); // json array

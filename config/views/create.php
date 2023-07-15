@@ -23,5 +23,13 @@ return [
         "page" => false,
         "modal" => false,
         "id" => "creator-offer-button"
-    ]
+    ],
+
+    "features-service" => [
+        "lable" => "إنشاء",
+        "check" => true,
+        "page" => false,
+        "modal" => true,
+        "id" => "creator-feature-button"
+    ],
 ];

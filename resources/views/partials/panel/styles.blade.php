@@ -27,5 +27,9 @@
 
 <!-- Datepicker -->
 <link rel="stylesheet" href="{{ asset('mdb/css/datepicker.css') }}" />
+
+<!-- Scroll -->
+<link rel="stylesheet" href="{{ asset('assets/css/scroll.css') }}" />
+
 @livewireStyles
 

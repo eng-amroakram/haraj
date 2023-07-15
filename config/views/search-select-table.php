@@ -32,4 +32,11 @@ return [
         ]
     ],
 
+    "features-service" => [
+        "status" => [
+            "نشط" => "active",
+            "غير نشط" => "inactive",
+        ]
+    ]
+
 ];

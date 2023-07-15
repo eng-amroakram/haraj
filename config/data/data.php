@@ -166,7 +166,6 @@ return [
         "European Specifications",
         "Japanese Specifications",
         "Korean Specifications",
-        "Other Specifications",
     ],
 
     "fuel-types" => [
@@ -174,7 +173,6 @@ return [
         "Diesel",
         "Generator",
         "Electric",
-        "Other",
     ],
 
     "driving-hand" => [
@@ -216,7 +214,6 @@ return [
         "800 - 900 HP",
         "900 - 1000 HP",
         "More than 1000 HP",
-        "Not Known",
     ],
 
     "cylinders" => [
@@ -228,7 +225,6 @@ return [
         "10 Cylinders",
         "12 Cylinders",
         "16 Cylinders",
-        "Not Known",
     ],
 
     "body-types" => [
@@ -244,13 +240,11 @@ return [
         "Pickup Truck/van",
         "Wagon",
         "Utility Truck",
-        "Other",
     ],
 
     "transmissions-types" => [
         "Automatic",
         "Manual",
-        "Not Known",
     ],
 
     "colors" => [
@@ -269,7 +263,6 @@ return [
         "Silver",
         "White",
         "Yellow",
-        "Other",
     ],
 
     "additional-features" => [
@@ -294,7 +287,6 @@ return [
         "Bank",
         "Company",
         "Government",
-        "Other",
     ],
 
     "doors-number" => [

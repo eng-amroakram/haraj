@@ -19,7 +19,7 @@ return [
         "title" => "property",
         "price_car" => "property",
         "model_name" => "property",
-        "year" => "property",
+        "year_name" => "property",
         "km_speed" => "property",
         "body_type_name" => "property",
         "mechanical_condition_name" => "property",
@@ -37,5 +37,13 @@ return [
         "price" => "property",
         "status_name" => "badge",
         "description" => "property",
-    ]
+    ],
+
+    "features-service" => [
+        "id" => "property",
+        "name_ar" => "property",
+        "name_en" => "property",
+        "status" => "status",
+        "actions" => ["delete", "edit"],
+    ],
 ];

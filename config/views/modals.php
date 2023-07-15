@@ -43,4 +43,21 @@ return [
             ],
         ]
     ],
+
+    "features-service" => [
+        "tabs" => [
+            ["title" => "إضافة ميزة جديدة", "id" => "feature-info", "status" => "active", "icon" => "fas fa-circle-info"],
+        ],
+
+        "contents" => [
+            [
+                "id" => "feature-info",
+                "status" => "active show",
+                "prev" => "",
+                "next" => "",
+                "inputs" => [],
+                "checkboxes" => []
+            ],
+        ]
+    ]
 ];

@@ -92,79 +92,81 @@ class Car extends Model
 
     public function scopeGetRules(Builder $builder, $id = "")
     {
-        $models = config("data.rules.cars-models");
-        $years = config("data.rules.years");
-        $regionalSpecifications = config("data.rules.regional-specifications");
-        $bodyTypes = config("data.rules.body-types");
-        $mechanicalConditions = config("data.rules.mechanical-conditions");
-        $carConditions = config("data.rules.car-conditions");
-        $sellerTypes = config("data.rules.seller-types");
-        $transmissions = config("data.rules.transmissions-types");
-        $enginePowers = config("data.rules.engine-powers");
-        $insurances = config("data.rules.insurances");
-        $colors = config("data.rules.colors");
-        $doorNumbers = config("data.rules.doors-number");
-        $seatNumbers = config("data.rules.seats-number");
-        $cylinders = config("data.rules.cylinders");
-        $fuelTypes = config("data.rules.fuel-types");
-        $technicalFeatures = config("data.rules.technical-features");
         $drivingHands = config("data.rules.driving-hand");
-        $additionalFeatures = config("data.rules.additional-features");
 
         return [
-            "title" => "required|string|max:255",
-            "price" => "required|numeric",
-            "model" => $models,
-            "year" => $years,
-            "km" => "required",
-            "regional_specifications" => $regionalSpecifications,
-            "body_type" => $bodyTypes,
-            "mechanical_condition"  => $mechanicalConditions,
-            "car_conditions" => $carConditions,
-            "seller_type" => $sellerTypes,
-            "transmission" => $transmissions,
-            "engine_power" => $enginePowers,
-            "insurance" => $insurances,
-            "outer_color" => $colors,
-            "inner_color" => $colors,
-            "door_numbers" => $doorNumbers,
-            "seat_numbers" => $seatNumbers,
-            "cylinders" => $cylinders,
-            "fuel_type" => $fuelTypes,
-            "technical_features" => $technicalFeatures,
+            "title" => ["required", "string", "max:255"],
+            "price" => ["required", "numeric"],
+            "model" => ['required', "exists:car_models,id"],
+            "year" => ["required", "numeric", "exists:years,id"],
+            "km" => ["required", "numeric"],
+            "regional_specifications" => ["required", "exists:regional_specifications,id"],
+            "body_type" => ["required", "exists:body_types,id"],
+            "mechanical_condition"  => ["required", "exists:mechanical_conditions,id"],
+            "car_conditions" => ["required", "exists:car_conditions,id"],
+            "seller_type" => ["required", "exists:seller_types,id"],
+            "transmission" => ["required", "exists:transmissions,id"],
+            "engine_power" => ["required", "exists:engine_powers,id"],
+            "insurance" => ["required", "exists:insurances,id"],
+            "outer_color" => ["required", "exists:outer_colors,id"],
+            "inner_color" => ["required", "exists:inner_colors,id"],
+            "door_numbers" => ["required", "exists:doors,id"],
+            "seat_numbers" => ["required", "exists:seats,id"],
+            "cylinders" => ["required", "exists:cylinders,id"],
+            "fuel_type" => ["required", "exists:fuel_types,id"],
+            "technical_features" => ["required"],
             "driving_hand" => $drivingHands,
-            "additional_features" => $additionalFeatures,
+            "additional_features" => ["required", "exists:additional_features,id"],
         ];
     }
 
     public function scopeGetMessages()
     {
         return [
-            "title.required" => "العنوان مطلوب",
-            "title.string" => "العنوان يجب ان يكون نص",
-            "title.max" => "العنوان يجب ان لا يتجاوز 255 حرف",
-            "price.required" => "السعر مطلوب",
-            "price.numeric" => "السعر يجب ان يكون رقم",
-            "model.required" => "الموديل مطلوب",
-            "year.required" => "السنة مطلوبة",
-            "km.required" => "الكيلومترات مطلوبة",
-            "body_type.required" => "نوع الهيكل مطلوب",
-            "mechanical_condition.required" => "الحالة الميكانيكية مطلوبة",
-            "regional_specifications.required" => "المواصفات الإقليمية مطلوبة",
-            "car_conditions.required" => "حالة السيارة مطلوبة",
-            "seller_type.required" => "نوع البائع مطلوب",
-            "transmission.required" => "نوع الناقل مطلوب",
-            "engine_power.required" => "قوة المحرك مطلوبة",
-            "insurance.required" => "التأمين مطلوب",
-            "outer_color.required" => "اللون الخارجي مطلوب",
-            "inner_color.required" => "اللون الداخلي مطلوب",
-            "door_numbers.required" => "عدد الابواب مطلوب",
-            "seat_numbers.required" => "عدد المقاعد مطلوب",
-            "cylinders.required" => "عدد السلندرات مطلوب",
-            "fuel_type.required" => "نوع الوقود مطلوب",
-            "technical_features.required" => "المواصفات الفنية مطلوبة",
-            "driving_hand.required" => "نوع الدفع مطلوب",
-            "additional_features.required" => "المواصفات الاضافية مطلوبة",
+            "title.required" => __("title is required"),
+            "title.string" => __("title must be string"),
+            "title.max" => __("title must be less than 255 characters"),
+            "price.required" => __("price is required"),
+            "price.numeric" => __("price must be numeric"),
+            "model.required" => __("model is required"),
+            "model.exists" => __("model not exists"),
+            "year.required" => __("year is required"),
+            "year.numeric" => __("year must be numeric"),
+            "year.exists" => __("year not exists"),
+            "km.required" => __("km is required"),
+            "km.numeric" => __("km must be numeric"),
+            "regional_specifications.required" => __("regional specifications is required"),
+            "regional_specifications.exists" => __("regional specifications not exists"),
+            "body_type.required" => __("body type is required"),
+            "body_type.exists" => __("body type not exists"),
+            "mechanical_condition.required" => __("mechanical condition is required"),
+            "mechanical_condition.exists" => __("mechanical condition not exists"),
+            "car_conditions.required" => __("car conditions is required"),
+            "car_conditions.exists" => __("car conditions not exists"),
+            "seller_type.required" => __("seller type is required"),
+            "seller_type.exists" => __("seller type not exists"),
+            "transmission.required" => __("transmission is required"),
+            "transmission.exists" => __("transmission not exists"),
+            "engine_power.required" => __("engine power is required"),
+            "engine_power.exists" => __("engine power not exists"),
+            "insurance.required" => __("insurance is required"),
+            "insurance.exists" => __("insurance not exists"),
+            "outer_color.required" => __("outer color is required"),
+            "outer_color.exists" => __("outer color not exists"),
+            "inner_color.required" => __("inner color is required"),
+            "inner_color.exists" => __("inner color not exists"),
+            "door_numbers.required" => __("door numbers is required"),
+            "door_numbers.exists" => __("door numbers not exists"),
+            "seat_numbers.required" => __("seat numbers is required"),
+            "seat_numbers.exists" => __("seat numbers not exists"),
+            "cylinders.required" => __("cylinders is required"),
+            "cylinders.exists" => __("cylinders not exists"),
+            "fuel_type.required" => __("fuel type is required"),
+            "fuel_type.exists" => __("fuel type not exists"),
+            "technical_features.required" => __("technical features is required"),
+            "driving_hand.required" => __("driving hand is required"),
+            "additional_features.required" => __("additional features is required"),
+            "additional_features.exists" => __("additional features not exists"),
         ];
     }
 
@@ -340,7 +342,42 @@ class Car extends Model
 
     public function getModelNameAttribute()
     {
-        return __($this->model);
+        $locale = app()->getLocale();
+        $carModel = CarModel::where('id', $this->model)->first();
+
+        if ($locale == "ar") {
+            if ($carModel) {
+                return $carModel->name_ar;
+            } else {
+                return "";
+            }
+        } else {
+            if ($carModel) {
+                return $carModel->name_en;
+            } else {
+                return "";
+            }
+        }
+    }
+
+    public function getYearNameAttribute()
+    {
+        $locale = app()->getLocale();
+        $year = Year::where('id', $this->model)->first();
+
+        if ($locale == "ar") {
+            if ($year) {
+                return $year->name_ar;
+            } else {
+                return "";
+            }
+        } else {
+            if ($year) {
+                return $year->name_en;
+            } else {
+                return "";
+            }
+        }
     }
 
     public function getkmSpeedAttribute()
@@ -360,27 +397,103 @@ class Car extends Model
 
     public function getBodyTypeNameAttribute()
     {
-        return __($this->body_type);
+        $locale = app()->getLocale();
+        $body_type = BodyType::where('id', $this->body_type)->first();
+
+        if ($locale == "ar") {
+            if ($body_type) {
+                return $body_type->name_ar;
+            } else {
+                return "";
+            }
+        } else {
+            if ($body_type) {
+                return $body_type->name_en;
+            } else {
+                return "";
+            }
+        }
     }
 
     public function getMechanicalConditionNameAttribute()
     {
-        return __($this->mechanical_condition);
+        $locale = app()->getLocale();
+        $mechanical_condition = MechanicalCondition::where('id', $this->mechanical_condition)->first();
+
+        if ($locale == "ar") {
+            if ($mechanical_condition) {
+                return $mechanical_condition->name_ar;
+            } else {
+                return "";
+            }
+        } else {
+            if ($mechanical_condition) {
+                return $mechanical_condition->name_en;
+            } else {
+                return "";
+            }
+        }
     }
 
     public function getSellerTypeNameAttribute()
     {
-        return __($this->seller_type);
+        $locale = app()->getLocale();
+        $seller_type = SellerType::where('id', $this->seller_type)->first();
+
+        if ($locale == "ar") {
+            if ($seller_type) {
+                return $seller_type->name_ar;
+            } else {
+                return "";
+            }
+        } else {
+            if ($seller_type) {
+                return $seller_type->name_en;
+            } else {
+                return "";
+            }
+        }
     }
 
     public function getTransmissionNameAttribute()
     {
-        return __($this->transmission);
+        $locale = app()->getLocale();
+        $transmission = Transmission::where('id', $this->transmission)->first();
+
+
+        if ($locale == "ar") {
+            if ($transmission) {
+                return $transmission->name_ar;
+            } else {
+                return "";
+            }
+        } else {
+            if ($transmission) {
+                return $transmission->name_en;
+            } else {
+                return "";
+            }
+        }
     }
 
     public function getEnginePowerNameAttribute()
     {
-        return __($this->engine_power);
+        $locale = app()->getLocale();
+        $engine_power = EnginePower::where('id', $this->engine_power)->first();
+
+        if ($locale == "ar") {
+            if ($engine_power) {
+                return $engine_power->name_ar;
+            } else {
+                return "";
+            }
+        } else {
+            if ($engine_power) {
+                return $engine_power->name_en;
+            } else {
+                return "";
+            }
+        }
     }
 
     public function getStatusNameAttribute()
