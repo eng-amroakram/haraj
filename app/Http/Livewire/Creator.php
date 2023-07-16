@@ -66,6 +66,7 @@ class Creator extends Component
             return false;
         }
 
+
         $message = $service->store($data);
 
         if ($message) {

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CarController;
+use App\Http\Controllers\Api\FeatureController;
 use App\Http\Controllers\Api\OfferController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\SettingsController;
@@ -75,6 +76,14 @@ Route::controller(OfferController::class)->prefix('offers/')->middleware(['auth:
             Route::get('get-seller-offers', 'getSellerOffers');
             Route::get('{id}/accept', 'accept');
             Route::get('{id}/reject', 'reject');
+        });
+    }
+);
+
+Route::controller(FeatureController::class)->prefix('features/')->middleware(['auth:sanctum'])->group(
+    function () {
+        Route::middleware(['checkUserStatus'])->group(function () {
+            Route::get('{feature}', 'index');
         });
     }
 );

@@ -4,18 +4,16 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Settings;
+use App\Traits\Helpers;
 use Illuminate\Http\Request;
 
 class SettingsController extends Controller
 {
+    use Helpers;
+
     public function index()
     {
         $settings = Settings::allToArrayWithKeys();
-        return response()->json([
-            'status' => true,
-            'message' => __('Settings fetched successfully!'),
-            'settings' => $settings,
-            'code' => 200
-        ], 200);
+        return $this->apiResponseMessage(true, 200, __('Settings fetched successfully'), ['settings' => $settings]);
     }
 }

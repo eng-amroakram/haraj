@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Traits\Helpers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+    use Helpers;
     protected $request;
 
     public function __construct(Request $request)
@@ -35,12 +37,7 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             $errors = $validator->errors();
-            return response()->json([
-                'status' => false,
-                'code' => 422,
-                'message' => __('login error'),
-                'errors' => $errors,
-            ], 422);
+            return $this->apiResponseMessage(null, 422, __('login error'), $errors);
         }
 
         if ($validator->passes()) {
@@ -52,24 +49,16 @@ class AuthController extends Controller
             if ($user && Hash::check($data['password'], $user->password)) {
                 // generate token and save it in database
                 $token = $user->createToken("Device Name", ['*']);
-                return response()->json([
-                    'status' => true,
-                    'code' => 200,
-                    'message' => __('Logged in successfully'),
-                    'data' => [
-                        "token" => $token->plainTextToken,
-                        "user" => $user
-                    ],
-                ], 200);
+                $data = [
+                    "token" => $token->plainTextToken,
+                    "user" => $user
+                ];
+
+                return $this->apiResponseMessage(true, 200, __('Logged in successfully'), $data);
             }
         }
 
-        return response()->json([
-            'status' => false,
-            'code' => 422,
-            'message' => __("Please check the data entered"),
-            'errors' => [],
-        ], 422);
+        return $this->apiResponseMessage(false, 422, __("Please check the data entered"), []);
     }
     public function register()
     {
@@ -98,12 +87,7 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             $errors = $validator->errors();
-            return response()->json([
-                'status' => false,
-                'code' => 422,
-                'message' => __('register error'),
-                'errors' => $errors,
-            ], 422);
+            return $this->apiResponseMessage(false, 422, __('register error'), $errors);
         }
 
         if ($validator->passes()) {
@@ -123,16 +107,12 @@ class AuthController extends Controller
             $user->is_verify = $user->is_verify;
 
             // $token = $user->createToken("Device Name", ['*']);
+            $data = [
+                "token" => null,
+                "user" => $user
+            ];
 
-            return response()->json([
-                'status' => true,
-                'code' => 200,
-                'message' => __('Your account has been successfully registered'),
-                'data' => [
-                    "token" => null,
-                    "user" => $user
-                ],
-            ], 200);
+            return $this->apiResponseMessage(true, 200, __('Your account has been successfully registered'), $data);
         }
     }
     public function otp()
@@ -156,12 +136,7 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             $errors = $validator->errors();
-            return response()->json([
-                'status' => false,
-                'code' => 422,
-                'message' => __('verify error'),
-                'errors' => $errors,
-            ], 422);
+            return $this->apiResponseMessage(false, 422, __('verify error'), $errors);
         }
 
         if ($validator->passes()) {
@@ -179,31 +154,16 @@ class AuthController extends Controller
                 $user = User::data()->where('email', $data['email'])->first();
                 $user->is_verify = $user->is_verify;
 
-                return response()->json([
-                    'status' => true,
-                    'code' => 200,
-                    'message' => __('Email Verified Successfully'),
-                    'data' => [
-                        "user" => $user
-                    ],
-                ], 200);
+                $data = [
+                    "user" => $user
+                ];
+
+                return $this->apiResponseMessage(true, 200, __('Email Verified Successfully'), $data);
             }
 
-            return response()->json([
-                'status' => false,
-                'code' => 422,
-                'message' => __('verify error'),
-                'errors' => [
-                    "code" => __("Code is incorrect")
-                ],
-            ], 422);
+            return $this->apiResponseMessage(false, 422, __("Code is incorrect"), []);
         }
 
-        return response()->json([
-            'status' => false,
-            'code' => 422,
-            'message' => __("Please check the data entered"),
-            'errors' => [],
-        ], 422);
+        return $this->apiResponseMessage(false, 422, __("Please check the data entered"), []);
     }
 }

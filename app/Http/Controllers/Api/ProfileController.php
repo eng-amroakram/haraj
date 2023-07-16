@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Traits\Helpers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class ProfileController extends Controller
 {
+    use Helpers;
 
     protected $request;
 
@@ -20,14 +22,7 @@ class ProfileController extends Controller
 
     public function info()
     {
-        return response()->json([
-            'success' => true,
-            'code' => 200,
-            'message' => __('Profile information retrieved successfully'),
-            'data' => [
-                "user" => auth()->user()
-            ]
-        ], 200);
+        return $this->apiResponseMessage(true, 200, __('Profile information retrieved successfully'), ["user" => auth()->user()]);
     }
 
     public function store()
@@ -50,12 +45,7 @@ class ProfileController extends Controller
 
         if ($validator->fails()) {
             $errors = $validator->errors();
-            return response()->json([
-                'success' => false,
-                'code' => 422,
-                'message' => __('validation error'),
-                'errors' => $errors,
-            ], 422);
+            return $this->apiResponseMessage(null, 422, __('validation error'), $errors);
         }
 
         if ($validator->passes()) {
@@ -63,15 +53,7 @@ class ProfileController extends Controller
 
             $user = User::data()->where('id', auth()->user()->id)->first();
             $user->update($data);
-
-            return response()->json([
-                'success' => true,
-                'code' => 200,
-                'message' => __('Profile updated successfully'),
-                'data' => [
-                    "user" => $user
-                ]
-            ], 200);
+            return $this->apiResponseMessage(true, 200, __('Profile updated successfully'), ["user" => $user]);
         }
     }
 
@@ -79,12 +61,7 @@ class ProfileController extends Controller
     {
         $user = auth()->user();
         $user->tokens()->delete();
-
-        return response()->json([
-            'success' => true,
-            'code' => 200,
-            'message' => __('Logged out successfully'),
-        ], 200);
+        return $this->apiResponseMessage(true, 200, __('Logged out successfully'), []);
     }
 
     public function changeEmail()
@@ -103,12 +80,7 @@ class ProfileController extends Controller
 
         if ($validator->fails()) {
             $errors = $validator->errors();
-            return response()->json([
-                'success' => false,
-                'code' => 422,
-                'message' => __('validation error'),
-                'errors' => $errors,
-            ], 422);
+            return $this->apiResponseMessage(false, 422, __('validation error'), $errors);
         }
 
         if ($validator->passes()) {
@@ -118,15 +90,7 @@ class ProfileController extends Controller
             $user->update([
                 "email" => $data['email'],
             ]);
-
-            return response()->json([
-                'success' => true,
-                'code' => 200,
-                'message' => __('Email updated successfully'),
-                'data' => [
-                    "user" => $user
-                ]
-            ], 200);
+            return $this->apiResponseMessage(true, 200, __('Email updated successfully'), ["user" => $user]);
         }
     }
 
@@ -154,12 +118,7 @@ class ProfileController extends Controller
 
         if ($validator->fails()) {
             $errors = $validator->errors();
-            return response()->json([
-                'success' => false,
-                'code' => 422,
-                'message' => __('validation error'),
-                'errors' => $errors,
-            ], 422);
+            return $this->apiResponseMessage(false, 422, __('validation error'), $errors);
         }
 
         if ($validator->passes()) {
@@ -171,20 +130,9 @@ class ProfileController extends Controller
                     "password" => Hash::make($data['new_password']),
                 ]);
 
-                return response()->json([
-                    'success' => true,
-                    'code' => 200,
-                    'message' => __('Password updated successfully'),
-                    'data' => [
-                        "user" => $user
-                    ]
-                ], 200);
+                return $this->apiResponseMessage(true, 200, __('Password updated successfully'), ["user" => $user]);
             } else {
-                return response()->json([
-                    'success' => false,
-                    'code' => 422,
-                    'message' => __('Password is incorrect'),
-                ], 422);
+                return $this->apiResponseMessage(false, 422, __('Password is incorrect'), []);
             }
         }
     }
@@ -193,11 +141,6 @@ class ProfileController extends Controller
     {
         $user = User::data()->where('id', auth()->user()->id)->first();
         $user->delete();
-
-        return response()->json([
-            'success' => true,
-            'code' => 200,
-            'message' => __('Account deleted successfully'),
-        ], 200);
+        return $this->apiResponseMessage(true, 200, __('Account deleted successfully'), []);
     }
 }

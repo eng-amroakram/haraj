@@ -63,4 +63,14 @@ trait Helpers
         $this->tabs = $service->tabs();
         $this->contents = $service->contents($type);
     }
+
+    public function apiResponseMessage($status, $code, $message, $data = [])
+    {
+        return response()->json([
+            'status' => $status,
+            'code' => $code,
+            'message' => $message,
+            'data' => $data,
+        ], $code);
+    }
 }

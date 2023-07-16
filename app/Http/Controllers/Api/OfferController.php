@@ -4,44 +4,28 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Offer;
+use App\Traits\Helpers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class OfferController extends Controller
 {
+    use Helpers;
+
     public function index(Request $request)
     {
         $filters = [];
         $offers = Offer::data()->filters($filters)->get();
-        return response()->json([
-            'status' => true,
-            'status_code' => 200,
-            'message' => __('Offers retrieved successfully'),
-            'data' => [
-                'cars' => $offers,
-            ],
-        ]);
+        return $this->apiResponseMessage(true, 200, __('Offers retrieved successfully'), ['offers' => $offers]);
     }
 
     public function show(Request $request, $id)
     {
         $offer = Offer::data()->find($id);
         if (!$offer) {
-            return response()->json([
-                'status' => false,
-                'code' => 404,
-                'message' => __('Offer not found'),
-            ], 404);
+            return $this->apiResponseMessage(false, 404, __('Offer not found'));
         }
-
-        return response()->json([
-            'status' => true,
-            'code' => 200,
-            'message' => __('Offer retrieved successfully'),
-            'data' => [
-                'offer' => $offer,
-            ],
-        ]);
+        return $this->apiResponseMessage(true, 200, __('Offer retrieved successfully'), ['offer' => $offer]);
     }
 
     public function store(Request $request)
@@ -52,28 +36,13 @@ class OfferController extends Controller
 
         if ($validator->fails()) {
             $errors = $validator->errors();
-            return response()->json([
-                'status' => false,
-                'code' => 422,
-                'message' => __('Offer error'),
-                'errors' => $errors,
-            ], 422);
+            return $this->apiResponseMessage(false, 422, __('Offer error'), $errors);
         }
 
         if ($validator->passes()) {
-
             $data = $validator->validated();
-
             $offer = Offer::store($data);
-
-            return response()->json([
-                'status' => true,
-                'code' => 201,
-                'message' => __('Offer created successfully'),
-                'data' => [
-                    'offer' => $offer,
-                ],
-            ], 201);
+            return $this->apiResponseMessage(true, 201, __('Offer created successfully'), ['offer' => $offer]);
         }
     }
 
@@ -81,96 +50,49 @@ class OfferController extends Controller
     {
         $offer = Offer::find($id);
         if (!$offer) {
-            return response()->json([
-                'status' => false,
-                'code' => 404,
-                'message' => __('Offer not found'),
-            ], 404);
+            return $this->apiResponseMessage(false, 404, __('Offer not found'));
         }
 
         $offer = Offer::updateModel($request->all(), $id);
-
-        return response()->json([
-            'status' => true,
-            'code' => 200,
-            'message' => __('Offer updated successfully'),
-            'data' => [
-                'offer' => $offer,
-            ],
-        ], 200);
+        return $this->apiResponseMessage(true, 200, __('Offer updated successfully'), ['offer' => $offer]);
     }
 
     public function destroy(Request $request, $id)
     {
         $offer = Offer::find($id);
         if (!$offer) {
-            return response()->json([
-                'status' => false,
-                'code' => 404,
-                'message' => __('Offer not found'),
-            ], 404);
+            return $this->apiResponseMessage(false, 404, __('Offer not found'));
         }
 
         $message = Offer::deleteModel($id);
-
-        return response()->json([
-            'status' => true,
-            'code' => 200,
-            'message' => $message,
-        ], 200);
+        return $this->apiResponseMessage(true, 200, $message);
     }
 
     public function accept(Request $request, $id)
     {
         $offer = Offer::find($id);
         $offer->update(['status' => 'accepted']);
-        return response()->json([
-            'status' => true,
-            'status_code' => 200,
-            'message' => __('Offer accepted successfully'),
-        ]);
+        return $this->apiResponseMessage(true, 200, __('Offer accepted successfully'));
     }
 
     public function reject(Request $request, $id)
     {
         $offer = Offer::find($id);
         $offer->update(['status' => 'rejected']);
-        return response()->json([
-            'status' => true,
-            'status_code' => 200,
-            'message' => __('Offer rejected successfully'),
-        ]);
+        return $this->apiResponseMessage(true, 200, __('Offer rejected successfully'));
     }
 
     public function getBuyerOffers()
     {
         $filters['status'] = request()->status ? [request()->status] : null;
-
         $offers = Offer::data()->where('buyer_id', auth()->id())->filters($filters)->get();
-
-        return response()->json([
-            'status' => true,
-            'status_code' => 200,
-            'message' => __('Offers retrieved successfully'),
-            'data' => [
-                'offers' => $offers,
-            ],
-        ]);
+        return $this->apiResponseMessage(true, 200, __('Offers retrieved successfully'), ['offers' => $offers]);
     }
 
     public function getSellerOffers()
     {
         $filters['status'] = request()->status ? [request()->status] : null;
-
         $offers = Offer::data()->where('seller_id', auth()->id())->filters($filters)->get();
-
-        return response()->json([
-            'status' => true,
-            'status_code' => 200,
-            'message' => __('Offers retrieved successfully'),
-            'data' => [
-                'offers' => $offers,
-            ],
-        ]);
+        return $this->apiResponseMessage(true, 200, __('Offers retrieved successfully'), ['offers' => $offers]);
     }
 }

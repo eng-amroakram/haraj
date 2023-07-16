@@ -21,4 +21,17 @@ class Services extends Controller
 
         return $reflection->newInstance();
     }
+
+    public static function createModelInstance($className)
+    {
+        $className = "App\Models\\$className";
+
+        if (!class_exists($className)) {
+            return null;
+        }
+
+        $reflection = new ReflectionClass($className);
+
+        return $reflection->newInstance();
+    }
 }
