@@ -22,7 +22,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [Home::class, 'index'])->name('index');
+Route::get('/', [Home::class, 'landing'])->name('landing');
+Route::get('/index', [Home::class, 'index'])->name('index');
+Route::get('/login', [Home::class, 'index'])->name('index');
 
 Route::controller(Home::class)->prefix('auth/')->as('auth.')->middleware(['web'])->group(
     function () {

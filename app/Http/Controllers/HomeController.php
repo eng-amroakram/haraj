@@ -6,6 +6,12 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+
+    public function landing()
+    {
+        return view('web.landing');
+    }
+
     public function index()
     {
         // 認証済みユーザの場合、Home画面へリダイ
