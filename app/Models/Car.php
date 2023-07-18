@@ -291,6 +291,7 @@ class Car extends Model
         $data["user_id"] = auth()->id();
         $data["status"] = "new";
         $data['additional_features'] = json_encode($data['additional_features']);
+        $data['published_in'] = now();
 
         $car = $builder->create($data);
 
