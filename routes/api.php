@@ -58,6 +58,7 @@ Route::controller(CarController::class)->prefix('ads/')->middleware(['auth:sanct
             Route::delete('{id}/destroy', 'destroy');
             Route::get('favorites', 'favorites');
             Route::get('myads', 'myads');
+            Route::get('favorite', 'favoriteADS');
             Route::get('{id}/favorite', 'favorite');
             Route::get('{id}/unfavorite', 'unfavorite');
         });

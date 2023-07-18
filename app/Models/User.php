@@ -55,7 +55,7 @@ class User extends Authenticatable
         return __($this->type);
     }
 
-    public function ads()
+    public function favoriteAds()
     {
         return $this->belongsToMany(Car::class, 'ads_user_favorite', 'user_id', 'car_id', 'id', 'id');
     }

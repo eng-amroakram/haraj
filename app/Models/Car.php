@@ -505,4 +505,11 @@ class Car extends Model
     {
         return json_decode($this->additional_features);
     }
+
+    public function scopeFavoriteADS($query)
+    {
+        return $query->whereHas('users', function ($query) {
+            $query->where('user_id', auth()->id());
+        });
+    }
 }

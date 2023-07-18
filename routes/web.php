@@ -7,8 +7,6 @@ use App\Http\Controllers\Panel\HomeController;
 use App\Http\Controllers\Panel\OfferController;
 use App\Http\Controllers\Panel\SettingsController;
 use App\Http\Controllers\Panel\UserController;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
 /*

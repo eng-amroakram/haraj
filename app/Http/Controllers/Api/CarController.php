@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Car;
+use App\Models\User;
 use App\Traits\Helpers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -144,6 +145,13 @@ class CarController extends Controller
     {
         $cars = Car::myads();
         $data = ['cars' => $cars];
+        return $this->apiResponseMessage(true, 200, __('Ads retrieved successfully'), $data);
+    }
+
+    public function favoriteADS()
+    {
+        $user = User::find(auth()->id());
+        $data = ['cars' => $user->favoriteAds];
         return $this->apiResponseMessage(true, 200, __('Ads retrieved successfully'), $data);
     }
 }
