@@ -95,4 +95,11 @@ class OfferController extends Controller
         $offers = Offer::data()->where('seller_id', auth()->id())->filters($filters)->get();
         return $this->apiResponseMessage(true, 200, __('Offers retrieved successfully'), ['offers' => $offers]);
     }
+
+    public function GetAdOffers($id)
+    {
+        $filters['status'] = request()->status ? [request()->status] : null;
+        $offers = Offer::data()->where('car_id', $id)->filters($filters)->get();
+        return $this->apiResponseMessage(true, 200, __('Offers retrieved successfully'), ['offers' => $offers]);
+    }
 }

@@ -75,6 +75,7 @@ Route::controller(OfferController::class)->prefix('offers/')->middleware(['auth:
             Route::delete('{id}/destroy', 'destroy');
             Route::get('get-buyer-offers', 'getBuyerOffers');
             Route::get('get-seller-offers', 'getSellerOffers');
+            Route::get('{id}/get-ad-offers', 'GetAdOffers');
             Route::get('{id}/accept', 'accept');
             Route::get('{id}/reject', 'reject');
         });
