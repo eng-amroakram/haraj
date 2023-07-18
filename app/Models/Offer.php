@@ -74,6 +74,11 @@ class Offer extends Model
         return $this->buyer->name;
     }
 
+    public function getAdTitleAttribute()
+    {
+        return $this->car->title;
+    }
+
     public function getSellerNameAttribute()
     {
         return $this->seller->name;

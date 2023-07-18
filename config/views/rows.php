@@ -32,6 +32,7 @@ return [
 
     "offers-service" => [
         "id" => "property",
+        "ad_name" => "property",
         "buyer_name" => "property",
         "seller_name" => "property",
         "price" => "property",
