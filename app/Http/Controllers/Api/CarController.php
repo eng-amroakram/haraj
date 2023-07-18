@@ -36,7 +36,7 @@ class CarController extends Controller
         $rules = Car::getRules();
         $messages = Car::getMessages();
         $data = $request->all();
-        // $data['additional_features'] = json_decode($request->all()['additional_features']);
+        $data['additional_features'] = json_decode($request->all()['additional_features']);
 
         $validator = Validator::make($data, $rules, $messages);
 
