@@ -3,6 +3,7 @@
 <link rel="stylesheet" href="{{ asset('assets/css/custom.card.css') }}">
 
 @section('content')
+
     <section class="mt-md-4 pt-md-2 mb-5 pb-4">
 
         <div class="row">
@@ -100,5 +101,7 @@
             </div>
 
         </div>
+
     </section>
+
 @endsection

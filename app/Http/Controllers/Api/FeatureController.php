@@ -30,6 +30,8 @@ class FeatureController extends Controller
             "SellerType",
             "Year",
             "AdditionalFeature",
+            'City',
+            'Princedom',
         ];
 
         $model = Services::createModelInstance($feature);

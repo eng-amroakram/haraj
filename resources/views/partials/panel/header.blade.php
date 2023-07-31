@@ -169,6 +169,18 @@
                     <span>العروض</span>
                 </a>
 
+                <a href="{{ route('panel.cities.index') }}"
+                    class="list-group-item list-group-item-action py-2 ripple {{ Route::currentRouteName() == 'panel.cities.index' ? ' active' : '' }}">
+                    <i class="fas fa-earth-oceania"></i>
+                    <span>المدن</span>
+                </a>
+
+                <a href="{{ route('panel.princedoms.index') }}"
+                    class="list-group-item list-group-item-action py-2 ripple {{ Route::currentRouteName() == 'panel.princedoms.index' ? ' active' : '' }}">
+                    <i class="fas fa-earth-oceania"></i>
+                    <span>المناطق</span>
+                </a>
+
                 <a href="{{ route('panel.settings.index') }}"
                     class="list-group-item list-group-item-action py-2 ripple {{ Route::currentRouteName() == 'panel.settings.index' ? ' active' : '' }}">
                     <i class="fas fa-gear"></i>

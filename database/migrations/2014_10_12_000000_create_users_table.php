@@ -17,6 +17,12 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('phone')->nullable()->unique();
             $table->string('code')->nullable();
+
+            $table->string('image')->nullable();
+
+            $table->string('id_number')->nullable()->unique();
+            $table->string('nick_name')->nullable()->unique();
+
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('type', ['seller', 'buyer', 'admin']);

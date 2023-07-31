@@ -37,6 +37,20 @@ return [
             "نشط" => "active",
             "غير نشط" => "inactive",
         ]
+    ],
+
+    "cities-service" => [
+        "status" => [
+            "نشط" => "active",
+            "غير نشط" => "inactive",
+        ]
+    ],
+
+    "princedoms-service" => [
+        "status" => [
+            "نشط" => "active",
+            "غير نشط" => "inactive",
+        ]
     ]
 
 ];

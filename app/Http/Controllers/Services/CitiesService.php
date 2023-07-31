@@ -3,32 +3,31 @@
 namespace App\Http\Controllers\Services;
 
 use App\Http\Controllers\Controller;
-use App\Models\CarModel;
-use Illuminate\Http\Request;
+use App\Models\City;
 
-class CarModelsService extends Controller
+class CitiesService extends Controller
 {
-    public $name = "موديل السيارة";
-    public $title_creator = "إضافة موديل سيارة جديدة";
-    public $title_updater = "تعديل بيانات الموديل";
+    public $name = "المدن";
+    public $title_creator = "إضافة مدينة جديدة";
+    public $title_updater = "تعديل بيانات المدينة";
     public $modal_size = "";
-    public $creator_id = "creator-feature-button";
-    public $updater_id = "updater-feature-button";
-    public $model = CarModel::class;
+    public $creator_id = "creator-city-button";
+    public $updater_id = "updater-city-button";
+    public $model = City::class;
 
     public function __construct()
     {
-        $this->model = new CarModel();
+        $this->model = new City();
     }
 
     public function model($id)
     {
-        return CarModel::find($id);
+        return City::find($id);
     }
 
     public function data($filters, $sort_field, $sort_direction, $paginate = 10)
     {
-        return CarModel::data()
+        return City::data()
             ->filters($filters)
             ->reorder($sort_field, $sort_direction)
             ->paginate($paginate);
@@ -36,27 +35,27 @@ class CarModelsService extends Controller
 
     public function columns()
     {
-        return config('views.columns.features-service');
+        return config('views.columns.cities-service');
     }
 
     public function rows()
     {
-        return config('views.rows.features-service');
+        return config('views.rows.cities-service');
     }
 
     public function selects()
     {
-        return config('views.search-select-table.features-service');
+        return config('views.search-select-table.cities-service');
     }
 
     public function create()
     {
-        return config('views.create.features-service');
+        return config('views.create.cities-service');
     }
 
     public function tabs()
     {
-        return config('views.modals.features-service.tabs');
+        return config('views.modals.cities-service.tabs');
     }
 
     public function contents($type)
@@ -85,32 +84,32 @@ class CarModelsService extends Controller
 
     public function rules($id = "")
     {
-        return CarModel::getRules($id);
+        return City::getRules($id);
     }
 
     public function messages($id = "")
     {
-        return CarModel::getMessages($id);
+        return City::getMessages($id);
     }
 
     public function delete($id)
     {
-        return CarModel::deleteModel($id);
+        return City::deleteModel($id);
     }
 
     public function status($id)
     {
-        return CarModel::status($id);
+        return City::status($id);
     }
 
     public function store($data)
     {
-        return CarModel::store($data);
+        return City::store($data);
     }
 
     public function update($data, $id)
     {
-        return CarModel::updateModel($data, $id);
+        return City::updateModel($data, $id);
     }
 
     public function fillable()

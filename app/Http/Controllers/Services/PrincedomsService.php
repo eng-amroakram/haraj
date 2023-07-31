@@ -3,32 +3,31 @@
 namespace App\Http\Controllers\Services;
 
 use App\Http\Controllers\Controller;
-use App\Models\CarModel;
-use Illuminate\Http\Request;
+use App\Models\Princedom;
 
-class CarModelsService extends Controller
+class PrincedomsService extends Controller
 {
-    public $name = "موديل السيارة";
-    public $title_creator = "إضافة موديل سيارة جديدة";
-    public $title_updater = "تعديل بيانات الموديل";
+    public $name = "الإمارات";
+    public $title_creator = "إضافة إمارة جديدة";
+    public $title_updater = "تعديل بيانات الإمارة";
     public $modal_size = "";
-    public $creator_id = "creator-feature-button";
-    public $updater_id = "updater-feature-button";
-    public $model = CarModel::class;
+    public $creator_id = "creator-princedom-button";
+    public $updater_id = "updater-princedom-button";
+    public $model = Princedom::class;
 
     public function __construct()
     {
-        $this->model = new CarModel();
+        $this->model = new Princedom();
     }
 
     public function model($id)
     {
-        return CarModel::find($id);
+        return Princedom::find($id);
     }
 
     public function data($filters, $sort_field, $sort_direction, $paginate = 10)
     {
-        return CarModel::data()
+        return Princedom::data()
             ->filters($filters)
             ->reorder($sort_field, $sort_direction)
             ->paginate($paginate);
@@ -36,27 +35,27 @@ class CarModelsService extends Controller
 
     public function columns()
     {
-        return config('views.columns.features-service');
+        return config('views.columns.princedoms-service');
     }
 
     public function rows()
     {
-        return config('views.rows.features-service');
+        return config('views.rows.princedoms-service');
     }
 
     public function selects()
     {
-        return config('views.search-select-table.features-service');
+        return config('views.search-select-table.princedoms-service');
     }
 
     public function create()
     {
-        return config('views.create.features-service');
+        return config('views.create.princedoms-service');
     }
 
     public function tabs()
     {
-        return config('views.modals.features-service.tabs');
+        return config('views.modals.princedoms-service.tabs');
     }
 
     public function contents($type)
@@ -85,32 +84,32 @@ class CarModelsService extends Controller
 
     public function rules($id = "")
     {
-        return CarModel::getRules($id);
+        return Princedom::getRules($id);
     }
 
     public function messages($id = "")
     {
-        return CarModel::getMessages($id);
+        return Princedom::getMessages($id);
     }
 
     public function delete($id)
     {
-        return CarModel::deleteModel($id);
+        return Princedom::deleteModel($id);
     }
 
     public function status($id)
     {
-        return CarModel::status($id);
+        return Princedom::status($id);
     }
 
     public function store($data)
     {
-        return CarModel::store($data);
+        return Princedom::store($data);
     }
 
     public function update($data, $id)
     {
-        return CarModel::updateModel($data, $id);
+        return Princedom::updateModel($data, $id);
     }
 
     public function fillable()
@@ -120,4 +119,5 @@ class CarModelsService extends Controller
             "name_en",
         ];
     }
+
 }

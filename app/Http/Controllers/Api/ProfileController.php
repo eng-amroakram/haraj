@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Gallery;
 use App\Models\User;
 use App\Traits\Helpers;
 use Illuminate\Http\Request;
@@ -51,7 +52,7 @@ class ProfileController extends Controller
         if ($validator->passes()) {
             $data = $validator->validated();
 
-            $user = User::data()->where('id', auth()->user()->id)->first();
+            $user = User::data()->where('id', auth()->id())->first();
             $user->update($data);
             return $this->apiResponseMessage(true, 200, __('Profile updated successfully'), ["user" => $user]);
         }
@@ -139,8 +140,80 @@ class ProfileController extends Controller
 
     public function destroy()
     {
-        $user = User::data()->where('id', auth()->user()->id)->first();
+        $user = User::data()->where('id', auth()->id())->first();
         $user->delete();
         return $this->apiResponseMessage(true, 200, __('Account deleted successfully'), []);
+    }
+
+    public function gallery()
+    {
+        $user = auth()->user();
+        // "princedom_id",
+        // "city_id",
+        // "location",
+        // "street_name",
+        // "building_number",
+        // "zip_code",
+        $validator = Validator::make([
+            "name" => $this->request->name,
+            "image" => $this->request->image,
+            "phone" => $this->request->phone,
+            "email" => $this->request->email,
+            "brief" => $this->request->brief,
+            "commercial_registration_no" => $this->request->commercial_registration_no,
+            "princedom_id" => $this->request->princedom_id,
+            "city_id" => $this->request->city_id,
+            "location" => $this->request->location,
+            "street_name" => $this->request->street_name,
+            "building_number" => $this->request->building_number,
+            "zip_code" => $this->request->zip_code,
+        ], [
+            "name" => ['nullable', 'string', 'max:255'],
+            "image" => ['nullable'],
+            "phone" => ['nullable', 'string', 'max:10', 'unique:galleries,phone,' . $user->gallery->id],
+            "email" => ['nullable', 'string', 'email', 'max:255', 'unique:galleries,email,' . $user->gallery->id],
+            "brief" => ['nullable', 'string', 'max:500'],
+            "commercial_registration_no" => ['nullable', 'string'],
+            "princedom_id" => ['nullable', 'exists:princedoms,id'],
+            "city_id" => ['nullable',  'exists:cities,id'],
+            "location" => ['nullable', 'string'],
+            "street_name" => ['nullable', 'string'],
+            "building_number" => ['nullable', 'string'],
+            "zip_code" => ['nullable', 'string'],
+        ], [
+            "name.string" => __("Enter a valid name please"),
+            "name.max" => __("Name must be less than 255 characters"),
+            "image" => __("Enter a valid image please"),
+            "phone.string" => __("Enter a valid phone please"),
+            "phone.max" => __("Phone must be less than 10 characters"),
+            "phone.unique" => __("Phone is already taken"),
+            "email.string" => __("Enter a valid email please"),
+            "email.email" => __("Enter a valid email please"),
+            "email.max" => __("Email must be less than 255 characters"),
+            "email.unique" => __("Email is already taken"),
+            "brief.string" => __("Enter a valid brief please"),
+            "brief.max" => __("Brief must be less than 500 characters"),
+            "commercial_registration_no.string" => __("Enter a valid commercial registration no please"),
+            "princedom_id.required" => __("This field is required"),
+            "princedom_id.exists" => __("Enter a valid princedom please"),
+            "city_id.exists" => __("Enter a valid city please"),
+            "location.string" => __("Enter a valid location please"),
+            "street_name.string" => __("Enter a valid street name please"),
+            "building_number.string" => __("Enter a valid building number please"),
+            "zip_code.string" => __("Enter a valid zip code please"),
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            return $this->apiResponseMessage(null, 422, __('validation error'), $errors);
+        }
+
+        if ($validator->passes()) {
+            $data = $validator->validated();
+
+            $gallery = Gallery::updateModel($data);
+
+            return $this->apiResponseMessage(true, 200, __('Gallery updated successfully'), ["gallery" => $gallery]);
+        }
     }
 }

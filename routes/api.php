@@ -42,6 +42,9 @@ Route::controller(ProfileController::class)->prefix('user/')->middleware(['auth:
             Route::post('change-email', 'changeEmail');
             Route::post('change-password', 'changePassword');
             Route::delete('delete', 'destroy');
+
+            Route::post('gallery', 'gallery');
+            Route::delete('galleryDelete', 'destroyGallery');
         });
 
         Route::post('logout', 'logout');

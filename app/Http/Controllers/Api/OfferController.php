@@ -71,6 +71,11 @@ class OfferController extends Controller
     public function accept(Request $request, $id)
     {
         $offer = Offer::find($id);
+
+        if (!$offer) {
+            return $this->apiResponseMessage(false, 404, __('Offer not found'));
+        }
+
         $offer->update(['status' => 'accepted']);
         return $this->apiResponseMessage(true, 200, __('Offer accepted successfully'));
     }
@@ -78,6 +83,11 @@ class OfferController extends Controller
     public function reject(Request $request, $id)
     {
         $offer = Offer::find($id);
+
+        if(!$offer) {
+            return $this->apiResponseMessage(false, 404, __('Offer not found'));
+        }
+
         $offer->update(['status' => 'rejected']);
         return $this->apiResponseMessage(true, 200, __('Offer rejected successfully'));
     }

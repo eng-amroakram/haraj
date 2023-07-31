@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\HomeController as Home;
 use App\Http\Controllers\Panel\CarController;
+use App\Http\Controllers\Panel\CityController;
 use App\Http\Controllers\Panel\FeatureController;
 use App\Http\Controllers\Panel\HomeController;
 use App\Http\Controllers\Panel\OfferController;
+use App\Http\Controllers\Panel\PrincedomController;
 use App\Http\Controllers\Panel\SettingsController;
 use App\Http\Controllers\Panel\UserController;
 use Illuminate\Support\Facades\Route;
@@ -51,10 +53,21 @@ Route::prefix('panel/')->as('panel.')->middleware(['web', 'auth'])->group(
             }
         );
 
-
         Route::controller(OfferController::class)->prefix('offers/')->as('offers.')->group(
             function () {
                 Route::get('', 'offers')->name('index');
+            }
+        );
+
+        Route::controller(CityController::class)->prefix('cities/')->as('cities.')->group(
+            function () {
+                Route::get('', 'cities')->name('index');
+            }
+        );
+
+        Route::controller(PrincedomController::class)->prefix('princedoms/')->as('princedoms.')->group(
+            function () {
+                Route::get('', 'princedoms')->name('index');
             }
         );
 

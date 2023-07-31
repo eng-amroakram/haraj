@@ -47,4 +47,20 @@ return [
         "status" => "status",
         "actions" => ["delete", "edit"],
     ],
+
+    "cities-service" => [
+        "id" => "property",
+        "name_ar" => "property",
+        "name_en" => "property",
+        "status" => "status",
+        "actions" => ["delete", "edit"],
+    ],
+
+    "princedoms-service" => [
+        "id" => "property",
+        "name_ar" => "property",
+        "name_en" => "property",
+        "status" => "status",
+        "actions" => ["delete", "edit"],
+    ]
 ];

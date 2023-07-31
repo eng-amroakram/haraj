@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Gallery;
 use App\Models\User;
 use App\Traits\Helpers;
 use Illuminate\Http\Request;
@@ -100,8 +101,21 @@ class AuthController extends Controller
                 'password' => Hash::make($data['password']),
                 'type' => $data['type'], // 'haraj', 'buyer'
                 'status' => "inactive",
-                "code" => $code
+                "code" => 1111
             ]);
+
+            if ($data['type'] == 'seller' && $user->gallery == null && $user->type == 'seller') {
+                Gallery::create([
+                    "seller_id" => $user->id,
+                    "name" => "",
+                    "image" => "",
+                    "phone" => "",
+                    "email" => "",
+                    "brief" => "",
+                    "commercial_registration_no" => "",
+                    "status" => "active",
+                ]);
+            }
 
             $user = User::data()->find($user->id);
             $user->is_verify = $user->is_verify;
@@ -117,7 +131,6 @@ class AuthController extends Controller
     }
     public function otp()
     {
-        dd("otp");
     }
     public function verify()
     {
@@ -161,9 +174,9 @@ class AuthController extends Controller
                 return $this->apiResponseMessage(true, 200, __('Email Verified Successfully'), $data);
             }
 
-            return $this->apiResponseMessage(false, 422, __("Code is incorrect"), []);
+            return $this->apiResponseMessage(true, 422, __("Code is incorrect"), []);
         }
 
-        return $this->apiResponseMessage(false, 422, __("Please check the data entered"), []);
+        return $this->apiResponseMessage(true, 422, __("Please check the data entered"), []);
     }
 }

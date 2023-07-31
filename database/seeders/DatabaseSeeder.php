@@ -32,6 +32,8 @@ class DatabaseSeeder extends Seeder
             TransmissionSeeder::class,
             YearSeeder::class,
             AdditionalFeaturesSeeder::class,
+            PrincedomSeeder::class,
+            CitySeeder::class,
         ]);
     }
 }

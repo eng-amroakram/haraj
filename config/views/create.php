@@ -32,4 +32,20 @@ return [
         "modal" => true,
         "id" => "creator-feature-button"
     ],
+
+    "cities-service" => [
+        "lable" => "إنشاء",
+        "check" => true,
+        "page" => false,
+        "modal" => true,
+        "id" => "creator-city-button"
+    ],
+
+    "princedoms-service" => [
+        "lable" => "إنشاء",
+        "check" => true,
+        "page" => false,
+        "modal" => true,
+        "id" => "creator-princedom-button"
+    ]
 ];

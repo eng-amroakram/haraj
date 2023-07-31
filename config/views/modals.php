@@ -59,5 +59,39 @@ return [
                 "checkboxes" => []
             ],
         ]
+    ],
+
+    "cities-service" => [
+        "tabs" => [
+            ["title" => "إضافة مدينة جديدة", "id" => "city-info", "status" => "active", "icon" => "fas fa-circle-info"],
+        ],
+
+        "contents" => [
+            [
+                "id" => "city-info",
+                "status" => "active show",
+                "prev" => "",
+                "next" => "",
+                "inputs" => [],
+                "checkboxes" => []
+            ],
+        ]
+    ],
+
+    "princedoms-service" => [
+        "tabs" => [
+            ["title" => "إضافة منطقة جديدة", "id" => "princedom-info", "status" => "active", "icon" => "fas fa-circle-info"],
+        ],
+
+        "contents" => [
+            [
+                "id" => "princedom-info",
+                "status" => "active show",
+                "prev" => "",
+                "next" => "",
+                "inputs" => [],
+                "checkboxes" => []
+            ],
+        ]
     ]
 ];
