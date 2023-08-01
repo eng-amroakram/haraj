@@ -6,7 +6,10 @@
 <script type="text/javascript" src="{{ asset('assets/js/popper.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/js/bootstrap.js') }}"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <x-livewire-alert::scripts />
+<x-livewire-alert::scripts />
+
+<script src="https://cdn.jsdelivr.net/npm/bs5-lightbox@1.8.3/dist/index.bundle.min.js"></script>
+
 @livewire('auth')
 
 @livewireScripts()

@@ -27,6 +27,10 @@ return new class extends Migration
             $table->string('password');
             $table->enum('type', ['seller', 'buyer', 'admin']);
             $table->enum('status', ['active', 'inactive']);
+
+            $table->enum('can_add_ad', ['active', 'inactive'])->dafault('inactive');
+            $table->enum('can_add_offer', ['active', 'inactive'])->dafault('inactive');
+
             $table->rememberToken();
             $table->timestamps();
         });

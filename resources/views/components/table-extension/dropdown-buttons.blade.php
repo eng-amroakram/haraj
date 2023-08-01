@@ -7,10 +7,10 @@
         <ul class="dropdown-menu" aria-labelledby="carStatus">
             @foreach (car_statuses() as $index => $car_status)
                 <li wire:click="changeStatus({{ $index }},{{ $id }})">
-                    <a class="dropdown-item text-white
-                    {{ $car_status == 'new' ? 'bg-warning' : '' }}
+                    <a class="dropdown-item text-black
+                    {{-- {{ $car_status == 'new' ? 'bg-warning' : '' }}
                     {{ $car_status == 'approved' ? 'bg-success' : '' }}
-                    {{ $car_status == 'rejected' ? 'bg-danger' : '' }}
+                    {{ $car_status == 'rejected' ? 'bg-danger' : '' }} --}}
                         {{ __("$car_status") == $status ? 'active' : '' }}
                         "
                         status="{{ $car_status }}" href="#">{{ __("$car_status") }}</a>

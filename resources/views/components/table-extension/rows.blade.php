@@ -13,7 +13,19 @@
         @endif
 
         @if ($type == 'status')
-            <x-table-extension.status :status="$model[$row]" :id="$model['id']"></x-table-extension.status>
+            <x-table-extension.status :status="$model[$row]" :name="1" :id="$model['id']"></x-table-extension.status>
+        @endif
+
+        @if ($type == 'can_add_ad')
+            <x-table-extension.status :status="$model[$row]" :name="2" :id="$model['id']"></x-table-extension.status>
+        @endif
+
+        @if ($type == 'can_add_offer')
+            <x-table-extension.status :status="$model[$row]" :name="3" :id="$model['id']"></x-table-extension.status>
+        @endif
+
+        @if ($type == 'image')
+            <x-table-extension.image :image="$model[$row]"></x-table-extension.image>
         @endif
 
         @if ($type == 'popover')
@@ -25,7 +37,8 @@
         @endif
 
         @if ($type == 'dropdown-buttons')
-            <x-table-extension.dropdown-buttons :id="$model['id']" :status="$model[$row]"></x-table-extension.dropdown-buttons>
+            <x-table-extension.dropdown-buttons :id="$model['id']"
+                :status="$model[$row]"></x-table-extension.dropdown-buttons>
         @endif
 
         @if ($type == 'badge')

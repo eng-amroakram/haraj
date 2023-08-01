@@ -38,7 +38,7 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             $errors = $validator->errors();
-            return $this->apiResponseMessage(null, 422, __('login error'), $errors);
+            return $this->apiResponseMessage(false, 422, __('login error'), $errors);
         }
 
         if ($validator->passes()) {
@@ -59,7 +59,7 @@ class AuthController extends Controller
             }
         }
 
-        return $this->apiResponseMessage(false, 422, __("Please check the data entered"), []);
+        return $this->apiResponseMessage(true, 422, __("Please check the data entered"), []);
     }
     public function register()
     {
@@ -99,9 +99,11 @@ class AuthController extends Controller
             $user = User::create([
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
-                'type' => $data['type'], // 'haraj', 'buyer'
-                'status' => "inactive",
-                "code" => 1111
+                'type' => $data['type'], // 'seller', 'buyer'
+                'status' => "active",
+                "can_add_ad" => "inactive",
+                "can_add_offer" => "inactive",
+                "code" => null,
             ]);
 
             if ($data['type'] == 'seller' && $user->gallery == null && $user->type == 'seller') {
@@ -120,18 +122,19 @@ class AuthController extends Controller
             $user = User::data()->find($user->id);
             $user->is_verify = $user->is_verify;
 
-            // $token = $user->createToken("Device Name", ['*']);
+            $token = $user->createToken("Device Name", ['*']);
             $data = [
-                "token" => null,
+                "token" => $token->plainTextToken,
                 "user" => $user
             ];
-
             return $this->apiResponseMessage(true, 200, __('Your account has been successfully registered'), $data);
         }
     }
+
     public function otp()
     {
     }
+
     public function verify()
     {
         $validator = Validator::make([

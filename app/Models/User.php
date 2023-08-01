@@ -2,8 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
+use App\Traits\ModelHelper;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -12,7 +11,9 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, ModelHelper;
+
+    protected $file_path = 'images/users';
 
     protected $fillable = [
         "name",
@@ -25,6 +26,8 @@ class User extends Authenticatable
         "password",
         "type",
         "status",
+        "can_add_ad",
+        "can_add_offer",
     ];
 
     protected $hidden = [
@@ -52,12 +55,19 @@ class User extends Authenticatable
             "type",
             "status",
             'email_verified_at',
+            "can_add_ad",
+            "can_add_offer",
         ]);
     }
 
     public function getTypeNameAttribute()
     {
         return __($this->type);
+    }
+
+    public function getImageTableAttribute()
+    {
+        return $this->image ? asset('storage/' . $this->image) : asset('assets/images/no-image-available.jpg');
     }
 
     public function favoriteAds()
@@ -84,7 +94,6 @@ class User extends Authenticatable
                 ->orWhere('email', 'like', '%' . $filters['search'] . '%')
                 ->orWhere('nick_name', 'like', '%' . $filters['search'] . '%')
                 ->orWhere('id_number', 'like', '%' . $filters['search'] . '%');
-
         });
 
         $builder->when($filters['search'] == '' && $filters['type'] != null, function ($query) use ($filters) {
@@ -144,13 +153,13 @@ class User extends Authenticatable
         return false;
     }
 
-    public function scopeStatus(Builder $builder, $id)
+    public function scopeStatus(Builder $builder, $id, $field)
     {
         $user = $builder->find($id);
 
         if ($user) {
             $user->update([
-                'status' => $user->status == 'active' ? 'inactive' : 'active'
+                $field => $user->{$field} == 'active' ? 'inactive' : 'active'
             ]);
             return __("Status Changed Successfully");
         }
@@ -160,20 +169,20 @@ class User extends Authenticatable
 
     public function scopeStore(Builder $builder, array $data = [])
     {
-        $data = array_merge([
-            'name' => '',
-            'email' => '',
-            'phone' => '',
-            'type' => '',
-            'password' => '',
-        ], $data);
+        $data['image'] = $builder->storeFile($data['image']);
+
+        $data['status'] = "active";
+        $data['can_add_ad'] = "inactive";
+        $data['can_add_offer'] = "inactive";
 
         $user = $builder->create([
             'name' => $data['name'],
             'email' => $data['email'],
             'phone' => $data['phone'],
             'type' => $data['type'],
-            "status" => "active",
+            'status' => $data['status'],
+            'can_add_ad' => $data['can_add_ad'],
+            'can_add_offer' => $data['can_add_offer'],
             'password' => bcrypt($data['password']),
         ]);
 
@@ -189,13 +198,12 @@ class User extends Authenticatable
         $user = $builder->find($id);
 
         if ($user) {
-            $user->update([
-                'name' => $data['name'],
-                'email' => $data['email'],
-                'phone' => $data['phone'],
-                'type' => $data['type'],
-                // 'password' => bcrypt($data['password']),
-            ]);
+
+            $builder->deleteImage($user->id);
+            $data['image'] = $builder->storeFile($data['image']);
+
+            $user->update($data);
+
             return __("Updated successfully");
         }
 

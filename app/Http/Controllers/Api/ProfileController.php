@@ -31,29 +31,38 @@ class ProfileController extends Controller
         $validator = Validator::make([
             "name" => $this->request->name,
             "phone" => $this->request->phone,
+            "id_number" => $this->request->id_number,
+            "nick_name" => $this->request->nick_name,
+            "image" => $this->request->image,
         ], [
-            "name" => ['required', 'string', 'max:255'],
-            "phone" => ['required', 'string', 'max:10', 'unique:users,phone,' . auth()->user()->id . ',id'],
+            "name" => ['nullable', 'string', 'max:255'],
+            "phone" => ['nullable', 'string', 'max:10', 'unique:users,phone,' . auth()->id() . ',id'],
+            "id_number" => ['nullable', 'string', 'max:10', 'unique:users,id_number,' . auth()->id() . ',id'],
+            "nick_name" => ['nullable', 'string', 'max:10', 'unique:users,nick_name,' . auth()->id() . ',id'],
+            "image" => ['nullable'],
         ], [
-            "name.required" => __("This field is required"),
             "name.string" => __("Enter a valid name please"),
             "name.max" => __("Name must be less than 255 characters"),
-            "phone.required" => __("This field is required"),
             "phone.string" => __("Enter a valid phone please"),
             "phone.max" => __("Phone must be less than 10 characters"),
             "phone.unique" => __("Phone is already taken"),
+            "id_number.unique" => __("ID number is already taken"),
+            "nick_name.unique" => __("Nick name is already taken"),
         ]);
 
         if ($validator->fails()) {
             $errors = $validator->errors();
-            return $this->apiResponseMessage(null, 422, __('validation error'), $errors);
+            return $this->apiResponseMessage(false, 422, __('validation error'), $errors);
         }
 
         if ($validator->passes()) {
+
             $data = $validator->validated();
 
-            $user = User::data()->where('id', auth()->id())->first();
-            $user->update($data);
+            User::updateModel($data, auth()->id());
+
+            $user = User::data()->find(auth()->id());
+
             return $this->apiResponseMessage(true, 200, __('Profile updated successfully'), ["user" => $user]);
         }
     }
@@ -148,12 +157,7 @@ class ProfileController extends Controller
     public function gallery()
     {
         $user = auth()->user();
-        // "princedom_id",
-        // "city_id",
-        // "location",
-        // "street_name",
-        // "building_number",
-        // "zip_code",
+
         $validator = Validator::make([
             "name" => $this->request->name,
             "image" => $this->request->image,
@@ -205,7 +209,7 @@ class ProfileController extends Controller
 
         if ($validator->fails()) {
             $errors = $validator->errors();
-            return $this->apiResponseMessage(null, 422, __('validation error'), $errors);
+            return $this->apiResponseMessage(false, 422, __('validation error'), $errors);
         }
 
         if ($validator->passes()) {

@@ -102,9 +102,9 @@ class UsersService extends Controller
         return User::deleteModel($id);
     }
 
-    public function status($id)
+    public function status($id, $field)
     {
-        return User::status($id);
+        return User::status($id, $field);
     }
 
     public function store($data)

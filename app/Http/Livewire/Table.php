@@ -127,10 +127,18 @@ class Table extends Component
         return false;
     }
 
-    public function status($id)
+    public function status($id, $field)
     {
+        if ($field == 1) {
+            $field = 'status';
+        } elseif ($field == 2) {
+            $field = 'can_add_ad';
+        } elseif ($field == 3) {
+            $field = 'can_add_offer';
+        }
+
         $service = $this->setService();
-        $result = $service->status($id);
+        $result = $service->status($id, $field);
         if ($result) {
             $this->alertMessage($result, 'success');
             return true;

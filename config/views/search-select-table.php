@@ -13,6 +13,16 @@ return [
             "أدمن" => "admin",
             "مشتري" => "buyer",
             "بائع" => "seller",
+        ],
+
+        "can_add_ad" => [
+            "نشط" => "active",
+            "غير نشط" => "inactive",
+        ],
+
+        "can_add_offer" => [
+            "نشط" => "active",
+            "غير نشط" => "inactive",
         ]
     ],
 

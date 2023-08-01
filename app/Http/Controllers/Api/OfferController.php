@@ -60,6 +60,7 @@ class OfferController extends Controller
     public function destroy(Request $request, $id)
     {
         $offer = Offer::find($id);
+
         if (!$offer) {
             return $this->apiResponseMessage(false, 404, __('Offer not found'));
         }

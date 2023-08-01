@@ -5,11 +5,14 @@ return [
 
     "users-service" => [
         "id" => 'property',
+        "image_table" => 'image',
         "name" => 'property',
         "phone" => 'property',
         "email" => 'property',
         "type_name" => 'badge',
         "status" => 'status',
+        "can_add_ad" => 'can_add_ad',
+        "can_add_offer" => 'can_add_offer',
         "actions" => ["delete", "edit",],
     ],
 

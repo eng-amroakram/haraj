@@ -25,7 +25,7 @@ class CarController extends Controller
         $car = Car::select(['id', 'title', 'model', 'year', 'price',])->find($id);
 
         if (!$car) {
-            return $this->apiResponseMessage(false, 404, __('Ads not found'));
+            return $this->apiResponseMessage(false, 404, __('Ads not found'), []);
         }
 
         return $this->apiResponseMessage(true, 200, __('Ads retrieved successfully'), ['car' => $car]);
@@ -48,7 +48,7 @@ class CarController extends Controller
         if ($validator->passes()) {
             $data = $validator->validated();
             $car = Car::store($data);
-            return $this->apiResponseMessage(true, 201, __('Ads created successfully'), ['car' => $car]);
+            return $this->apiResponseMessage(true, 201, __('Ad created successfully'), ['car' => $car]);
         }
     }
 

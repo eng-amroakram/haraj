@@ -46,8 +46,10 @@ class FeatureController extends Controller
             $name = 'name_ar';
         }
 
-        return $model::data()->where('status', 'active')->pluck($name, 'id')->mapWithKeys(function ($name, $id) {
+        $array_features = $model::data()->where('status', 'active')->pluck($name, 'id')->mapWithKeys(function ($name, $id) {
             return [$name => (string)$id];
         })->toArray();
+
+        return $this->apiResponseMessage(true, 200, __('Feature retrieved successfully'), ['features' => $array_features]);
     }
 }

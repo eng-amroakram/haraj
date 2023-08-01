@@ -53,12 +53,17 @@ Route::controller(ProfileController::class)->prefix('user/')->middleware(['auth:
 
 Route::controller(CarController::class)->prefix('ads/')->middleware(['auth:sanctum'])->group(
     function () {
+
         Route::middleware(['checkUserStatus'])->group(function () {
+
+            Route::middleware('ad-control')->group(function () {
+                Route::post('store', 'store');
+                Route::put('{id}/update', 'update');
+                Route::delete('{id}/destroy', 'destroy');
+            });
+
             Route::get('', 'index');
             Route::get('{id}/show', 'show');
-            Route::post('', 'store');
-            Route::put('{id}/update', 'update');
-            Route::delete('{id}/destroy', 'destroy');
             Route::get('favorites', 'favorites');
             Route::get('myads', 'myads');
             Route::get('favorite', 'favoriteADS');
@@ -71,11 +76,15 @@ Route::controller(CarController::class)->prefix('ads/')->middleware(['auth:sanct
 Route::controller(OfferController::class)->prefix('offers/')->middleware(['auth:sanctum'])->group(
     function () {
         Route::middleware(['checkUserStatus'])->group(function () {
+
+            Route::middleware('offer-control')->group(function () {
+                Route::post('store', 'store');
+                Route::put('{id}/update', 'update');
+                Route::delete('{id}/destroy', 'destroy');
+            });
+
             Route::get('all-offers', 'index');
             Route::get('{id}/show', 'show');
-            Route::post('store', 'store');
-            Route::put('{id}/update', 'update');
-            Route::delete('{id}/destroy', 'destroy');
             Route::get('get-buyer-offers', 'getBuyerOffers');
             Route::get('get-seller-offers', 'getSellerOffers');
             Route::get('{id}/get-ad-offers', 'GetAdOffers');
