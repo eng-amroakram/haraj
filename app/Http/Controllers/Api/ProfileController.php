@@ -28,6 +28,8 @@ class ProfileController extends Controller
 
     public function store()
     {
+        $user = auth()->user();
+
         $validator = Validator::make([
             "name" => $this->request->name,
             "phone" => $this->request->phone,
@@ -36,9 +38,9 @@ class ProfileController extends Controller
             "image" => $this->request->image,
         ], [
             "name" => ['nullable', 'string', 'max:255'],
-            "phone" => ['nullable', 'string', 'max:10', 'unique:users,phone,' . auth()->id() . ',id'],
-            "id_number" => ['nullable', 'string', 'max:10', 'unique:users,id_number,' . auth()->id() . ',id'],
-            "nick_name" => ['nullable', 'string', 'max:10', 'unique:users,nick_name,' . auth()->id() . ',id'],
+            "phone" => ['nullable', 'string', 'max:10', 'unique:users,phone,' . $user->id],
+            "id_number" => ['nullable', 'string', 'max:10', 'unique:users,id_number,' . $user->id],
+            "nick_name" => ['nullable', 'string', 'max:10', 'unique:users,nick_name,' . $user->id],
             "image" => ['nullable', 'max:2048'],
         ], [
             "name.string" => __("Enter a valid name please"),
