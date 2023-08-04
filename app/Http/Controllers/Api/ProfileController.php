@@ -28,6 +28,7 @@ class ProfileController extends Controller
 
     public function store()
     {
+        dd($this->request->all());
         $validator = Validator::make([
             "name" => $this->request->name,
             "phone" => $this->request->phone,
