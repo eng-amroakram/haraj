@@ -109,12 +109,12 @@ class AuthController extends Controller
             if ($data['type'] == 'seller' && $user->gallery == null && $user->type == 'seller') {
                 Gallery::create([
                     "seller_id" => $user->id,
-                    "name" => "",
-                    "image" => "",
-                    "phone" => "",
-                    "email" => "",
-                    "brief" => "",
-                    "commercial_registration_no" => "",
+                    "name" => null,
+                    "image" => null,
+                    "phone" => null,
+                    "email" => null,
+                    "brief" => null,
+                    "commercial_registration_no" => null,
                     "status" => "active",
                 ]);
             }
