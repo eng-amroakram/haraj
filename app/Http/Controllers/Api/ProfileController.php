@@ -39,7 +39,7 @@ class ProfileController extends Controller
             "phone" => ['nullable', 'string', 'max:10', 'unique:users,phone,' . auth()->id() . ',id'],
             "id_number" => ['nullable', 'string', 'max:10', 'unique:users,id_number,' . auth()->id() . ',id'],
             "nick_name" => ['nullable', 'string', 'max:10', 'unique:users,nick_name,' . auth()->id() . ',id'],
-            "image" => ['nullable'],
+            "image" => ['nullable', 'max:2048'],
         ], [
             "name.string" => __("Enter a valid name please"),
             "name.max" => __("Name must be less than 255 characters"),
@@ -173,7 +173,7 @@ class ProfileController extends Controller
             "zip_code" => $this->request->zip_code,
         ], [
             "name" => ['nullable', 'string', 'max:255'],
-            "image" => ['nullable'],
+            "image" => ['nullable', 'max:2048'],
             "phone" => ['nullable', 'string', 'max:10', 'unique:galleries,phone,' . $user->gallery->id],
             "email" => ['nullable', 'string', 'email', 'max:255', 'unique:galleries,email,' . $user->gallery->id],
             "brief" => ['nullable', 'string', 'max:500'],
