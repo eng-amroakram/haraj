@@ -21,6 +21,11 @@ class Year extends Model
         return $query->select(['id', 'name_ar', 'name_en', 'status']);
     }
 
+    public function car()
+    {
+        return $this->hasMany(Car::class);
+    }
+
     public function scopeGetRules(Builder $builder, $id = "")
     {
         return [

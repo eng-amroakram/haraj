@@ -45,7 +45,15 @@ class CarsService extends Controller
 
     public function selects()
     {
-        return   config('views.search-select-table.cars-service');
+        return   [
+            "status" => [
+                'جديد' => 'new',
+                'مقبول' => 'approved',
+                'مرفوض'  => 'rejected'
+            ],
+
+            "year" => years(true),
+        ];
     }
 
     public function create()

@@ -55,6 +55,7 @@ class Updater extends Component
     {
         $this->service = $service;
         $this->model_id = $id;
+
         $service = $this->setService($this->service);
 
         $model = $service->model($id);

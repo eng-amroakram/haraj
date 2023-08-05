@@ -249,5 +249,3 @@ if (!function_exists('additional_features')) {
         return AdditionalFeature::data()->get();
     }
 }
-
-

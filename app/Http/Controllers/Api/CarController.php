@@ -17,8 +17,12 @@ class CarController extends Controller
     public function index()
     {
         $user = User::find(auth()->id());
-        $gallery = $user->gallery->with('cars')->get();
-        // $cars = Car::data()->get();
+        $filters = request()->query('filters') ?? [];
+
+        $gallery = $user->gallery->with(['cars' => function ($query) use ($filters) {
+            $query->filters($filters);
+        }])->get();
+
         return $this->apiResponseMessage(true, 200, __('Ads retrieved successfully'), ['gallery' => $gallery]);
     }
 

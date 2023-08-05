@@ -233,6 +233,7 @@ class Car extends Model
             'status' => null
         ], $filters);
 
+
         $builder->when($filters['search'] != '', function ($query) use ($filters) {
             $query->where('name', 'like', '%' . $filters['search'] . '%');
         });
@@ -372,6 +373,7 @@ class Car extends Model
             unset($data['status']);
         }
 
+
         if ($car) {
             $car->update($data);
             return __("Ad updated successfully");
@@ -439,7 +441,7 @@ class Car extends Model
     public function getYearNameAttribute()
     {
         $locale = app()->getLocale();
-        $year = Year::where('id', $this->model)->first();
+        $year = Year::where('id', $this->year)->first();
 
         if ($locale == "ar") {
             if ($year) {
