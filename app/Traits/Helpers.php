@@ -15,6 +15,10 @@ trait Helpers
     public function setFields($fillable)
     {
         foreach ($fillable as $field) {
+            // if ($field == 'images') {
+            //     $this->{$field} = [];
+            //     continue;
+            // }
             $this->{$field} = null;
         }
     }

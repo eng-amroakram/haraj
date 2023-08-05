@@ -16,13 +16,15 @@ class CarController extends Controller
 
     public function index()
     {
-        $cars = Car::select(['id', 'title', 'model', 'year', 'price',])->get();
-        return $this->apiResponseMessage(true, 200, __('Ads retrieved successfully'), ['cars' => $cars]);
+        $user = User::find(auth()->id());
+        $gallery = $user->gallery->with('cars')->get();
+        // $cars = Car::data()->get();
+        return $this->apiResponseMessage(true, 200, __('Ads retrieved successfully'), ['gallery' => $gallery]);
     }
 
     public function show($id)
     {
-        $car = Car::select(['id', 'title', 'model', 'year', 'price',])->find($id);
+        $car = Car::data()->find($id);
 
         if (!$car) {
             return $this->apiResponseMessage(false, 404, __('Ads not found'), []);

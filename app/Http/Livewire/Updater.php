@@ -5,10 +5,12 @@ namespace App\Http\Livewire;
 use App\Traits\Helpers;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Updater extends Component
 {
     use LivewireAlert;
+    use WithFileUploads;
     use Helpers;
 
     protected $listeners = [
@@ -58,6 +60,12 @@ class Updater extends Component
         $model = $service->model($id);
 
         foreach ($this->fillable as $field) {
+
+            if ($field == "images") {
+                $this->{$field} = [];
+                continue;
+            }
+
             $this->{$field} = $model->{$field};
         }
 
@@ -67,13 +75,13 @@ class Updater extends Component
 
                 if ($input['type'] == 'select') {
                     $input_id  = "#" . $input['id'];
-                    $value = (string) $model->{$input['name']};
+                    $value = $model->{$input['name']};
                     $this->emit('select2Updater', $input_id, $value);
                 }
 
                 if ($input['name'] == 'additional_features') {
-                    $this->{'additional_features'} = $model->additional_features_array;
-                    $this->emit('setMultiSelectInput', "additional_features_select_id_updater", $model->additional_features_array);
+                    $this->{'additional_features'} = $model->additional_features;
+                    $this->emit('setMultiSelectInput', "additional_features_select_id_updater", $model->additional_features);
                 }
             }
         }

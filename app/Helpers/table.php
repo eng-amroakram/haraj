@@ -7,7 +7,7 @@ if (!function_exists('badge')) {
             return "badge rounded-pill badge-danger";
         }
 
-        if (in_array($type, ["مشتري", "جديد","قيد الانتظار"])) {
+        if (in_array($type, ["مشتري", "جديد", "قيد الانتظار"])) {
             return "badge rounded-pill badge-warning";
         }
 
@@ -22,7 +22,7 @@ if (!function_exists('badge')) {
 }
 
 if (!function_exists('input')) {
-    function input($type, $name, $id, $icon, $dir = "rtl", $maxlength = "50", $class, $placeholder = "", $defer = true, $lable = "", $validation = "", $disabled = false, $value = "")
+    function input($type, $name, $id, $icon, $dir = "rtl", $maxlength = "50", $class, $placeholder = "", $defer = true, $lable = "", $validation = "", $disabled = false, $value = "", $accept = '', $multiple = '')
     {
         return [
             "type" => $type,
@@ -37,7 +37,10 @@ if (!function_exists('input')) {
             "defer" => $defer,
             "lable" => $lable,
             "validation" => $validation,
-            "disabled" => $disabled
+            "disabled" => $disabled,
+            "accept" => $accept,
+            "multiple" => $multiple
+
         ];
     }
 }

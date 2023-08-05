@@ -3,13 +3,14 @@
 namespace App\Http\Livewire;
 
 use App\Traits\Helpers;
-use Illuminate\Support\Facades\Validator;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Creator extends Component
 {
     use LivewireAlert;
+    use WithFileUploads;
     use Helpers;
 
     protected $listeners = [
@@ -65,7 +66,6 @@ class Creator extends Component
         if (!$this->makeValidation($service, $data, "creator-errors")) {
             return false;
         }
-
 
         $message = $service->store($data);
 

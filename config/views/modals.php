@@ -22,6 +22,7 @@ return [
         "tabs" => [
             ["title" => "معلومات السيارة الاساسية", "id" => "car-info", "status" => "active", "icon" => "fas fa-circle-info"],
             ["title" => "مواصفات إضافية", "id" => "more-info", "status" => "", "icon" => "fas fa-circle-info"],
+            ["title" => "إضافة الصور", "id" => "upload-images", "status" => "", "icon" => "fas fa-circle-info"],
         ],
 
         "contents" => [
@@ -37,6 +38,14 @@ return [
                 "id" => "more-info",
                 "status" => "",
                 "prev" => "car-info",
+                "next" => "",
+                "inputs" => [],
+                "checkboxes" => []
+            ],
+            [
+                "id" => "upload-images",
+                "status" => "",
+                "prev" => "more-info",
                 "next" => "",
                 "inputs" => [],
                 "checkboxes" => []

@@ -92,6 +92,29 @@
 @endif --}}
 
 
+@if ($input['type'] == 'image')
+
+    <div class="{{ $classsize }}" wire:ignore>
+
+        @if ($input['lable'])
+            <label class="form-label select-label mb-1"><strong>{{ $input['lable'] }}</strong></label>
+        @endif
+
+        <div class="input-group">
+            <span class="input-group-text">
+                <i class="{{ $input['icon'] }}"></i>
+            </span>
+            <input type="file" id="{{ $input['id'] }}" accept={{ $input['accept'] }}
+                wire:model="{{ $input['name'] }}" name="{{ $input['name'] }}" class="{{ $input['class'] }}"
+                {{ $input['disabled'] ? 'disabled' : '' }} {{ $input['multiple'] }} />
+        </div>
+
+        <small class="{{ $input['validation'] }}"></small>
+    </div>
+
+@endif
+
+
 @if ($input['type'] == 'group-select')
     <div class="{{ $classsize }}">
 
@@ -126,7 +149,6 @@
         <small class="{{ $input['validation'] }}"></small>
     </div>
 @endif
-
 
 @if ($input['type'] == 'textarea')
     <div class="col-md-12">

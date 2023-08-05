@@ -83,6 +83,10 @@ class Gallery extends Model
         return $query->where('status', 'active');
     }
 
+    public function cars()
+    {
+        return $this->hasMany(Car::class, 'gallery_id', 'id');
+    }
 
     public function scopeGetRules(Builder $builder, $id = "")
     {

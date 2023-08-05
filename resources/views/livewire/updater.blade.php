@@ -125,7 +125,9 @@
 
                 for (let key in $data_updater) {
                     if ($data_updater.hasOwnProperty(key)) {
-                        @this.set(key, $data_updater[key]);
+                        if (key != "main_image" || key != "images") {} else {
+                            @this.set(key, $data_updater[key]);
+                        }
                     }
                 }
 

@@ -92,6 +92,10 @@ class CarsService extends Controller
                 input("text", "technical_features", "technical_features_input_id$prefix_id", "fas fa-gear", "rtl", "50", "form-control inputText$type", "المواصفات التقنية", true, "المواصفات التقنية", "text-danger reset-validation technical_features-validation"),
 
                 select('select', 'additional_features', "additional_features_select_id$prefix_id", "fas fa-palette", "", "select inputSelect$type", "ميزات إضافية", true, additional_features(true), "multiple", false, "ميزات إضافية", "text-danger additional_features-validation reset-validation"),
+            ],
+            [
+                input("image", "main_image", "main_image_input_id_$prefix_id", "fas fa-cloud-arrow-up", "ltr", "50", "form-control inputText$type", __("Main Image"), true, __("Main Image"), "text-danger reset-validation main_image-validation", false, "", "image/*", ''),
+                input("image", "images", "images_input_id_$prefix_id", "fas fa-cloud-arrow-up", "ltr", "50", "form-control inputText$type", __("Images"), true, __("Images"), "text-danger reset-validation images-validation", false, "", "image/*", 'multiple'),
             ]
         ];
 
@@ -164,6 +168,8 @@ class CarsService extends Controller
             "technical_features",
             "driving_hand",
             "additional_features",
+            "main_image",
+            "images",
         ];
     }
 }

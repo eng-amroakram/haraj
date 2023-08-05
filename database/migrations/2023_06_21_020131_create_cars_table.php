@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('cars', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('gallery_id')->nullable()->constrained('galleries')->cascadeOnDelete();
+
             $table->string('title');
             $table->double('price')->default(0);
 
@@ -39,8 +41,10 @@ return new class extends Migration
             $table->enum('driving_hand', config("data.data.driving-hand"));
             $table->json('additional_features'); // json array
 
-            $table->enum('status', ['new', 'approved', 'rejected']);
+            $table->string('main_image')->nullable();
+            $table->json('images')->nullable(); // json array
 
+            $table->enum('status', ['new', 'approved', 'rejected']);
             $table->timestamp('published_in');
             $table->timestamps();
         });

@@ -20,19 +20,6 @@ trait ModelHelper
         return false;
     }
 
-    public function scopeStatus(Builder $builder, $id)
-    {
-        $model = $builder->find($id);
-        if ($model) {
-            $model->update([
-                'status' => $model->status == 'active' ? 'inactive' : 'active'
-            ]);
-            return __("Update Status Successfully");
-        }
-
-        return false;
-    }
-
     public function deleteLivewireTempImage()
     {
         if (Storage::disk('local')->exists('livewire-tmp')) {
@@ -51,6 +38,33 @@ trait ModelHelper
         }
         return "";
     }
+
+    public function scopeDeleteMainImage(Builder $builder, $id)
+    {
+        $model = $builder->find($id);
+        if ($model->main_image) {
+            if (Storage::disk('public')->exists($model->main_image)) {
+                Storage::disk('public')->delete($model->main_image);
+            }
+        }
+        return "";
+    }
+
+    public function scopeDeleteImages(Builder $builder, $id)
+    {
+        $model = $builder->find($id);
+        if ($model->images) {
+            $images = $model->images;
+
+            foreach ($images as $image) {
+                if (Storage::disk('public')->exists($image)) {
+                    Storage::disk('public')->delete($image);
+                }
+            }
+        }
+        return "";
+    }
+
 
     public function scopeDeleteVideo(Builder $builder, $id)
     {

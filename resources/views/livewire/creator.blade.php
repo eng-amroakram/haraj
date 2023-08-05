@@ -123,7 +123,9 @@
                     $(".reset-validation").text(" ");
                     for (let key in $data) {
                         if ($data.hasOwnProperty(key)) {
-                            @this.set(key, $data[key]);
+                            if (key != "main_image" || key != "images") {} else {
+                                @this.set(key, $data[key]);
+                            }
                         }
                     }
                     Livewire.emit('store', getContent());

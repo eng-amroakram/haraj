@@ -581,5 +581,7 @@
     "driving hand is required": "يد القيادة مطلوبة",
     "driving hand not exists": "يد القيادة غير موجودة",
     "additional features is required": "الميزات الإضافية مطلوبة",
-    "additional features not exists": "الميزات الإضافية غير موجودة"
+    "additional features not exists": "الميزات الإضافية غير موجودة",
+    "Main Image": "الصورة الرئيسية",
+    "Images": "الصور"
 }

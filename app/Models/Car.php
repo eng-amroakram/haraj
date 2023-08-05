@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\ModelHelper;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,9 +10,13 @@ use Illuminate\Database\Eloquent\Model;
 class Car extends Model
 {
     use HasFactory;
+    use ModelHelper;
+
+    protected $file_path = 'images/cars';
 
     protected $fillable = [
         "user_id",
+        "gallery_id",
         "title",
         "price",
         "model",
@@ -36,6 +41,8 @@ class Car extends Model
         "additional_features",
         "status",
         "published_in",
+        "main_image",
+        "images",
     ];
 
     public function scopeData($query)
@@ -43,6 +50,7 @@ class Car extends Model
         return $query->select([
             "id",
             "user_id",
+            "gallery_id",
             "title",
             "price",
             "model",
@@ -67,6 +75,8 @@ class Car extends Model
             "additional_features",
             "status",
             "published_in",
+            "main_image",
+            "images",
         ]);
     }
 
@@ -80,6 +90,11 @@ class Car extends Model
         return $this->belongsTo(User::class, "user_id", 'id');
     }
 
+    public function gallery()
+    {
+        return $this->belongsTo(Gallery::class, "gallery_id", 'id');
+    }
+
     public function buyer()
     {
         return $this->belongsTo(User::class, "user_id", 'id');
@@ -88,6 +103,21 @@ class Car extends Model
     public function users()
     {
         return $this->belongsToMany(User::class, "ads_user_favorite", "car_id", "user_id", "id", "id");
+    }
+
+    public function getMainImageTableAttribute()
+    {
+        return $this->image ? asset('storage/' . $this->image) : asset('assets/images/no-image-available.jpg');
+    }
+
+    public function getImagesAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    public function setImagesAttribute($value)
+    {
+        $this->attributes['images'] = json_encode($value);
     }
 
     public function scopeGetRules(Builder $builder, $id = "")
@@ -117,6 +147,8 @@ class Car extends Model
             "technical_features" => ["required"],
             "driving_hand" => $drivingHands,
             "additional_features" => ["required", "exists:additional_features,id"],
+            "main_image" => ["nullable", "max:2048"],
+            "images" => ["nullable", "array", "max:5"],
         ];
     }
 
@@ -167,6 +199,10 @@ class Car extends Model
             "driving_hand.required" => __("driving hand is required"),
             "additional_features.required" => __("additional features is required"),
             "additional_features.exists" => __("additional features not exists"),
+            "main_image.image" => __("main image must be image"),
+            "main_image.max" => __("main image must be less than 2MB"),
+            "images.array" => __("images must be array"),
+            "images.max" => __("images must be less than 5"),
         ];
     }
 
@@ -262,17 +298,6 @@ class Car extends Model
         });
     }
 
-    public function scopeDeleteModel(Builder $builder, $id)
-    {
-        $user = $builder->find($id);
-        if ($user) {
-            $user->delete();
-            return __("Ad deleted successfully");
-        }
-
-        return false;
-    }
-
     public function scopeStatus(Builder $builder, $status, $id)
     {
         $car = $builder->find($id);
@@ -288,10 +313,27 @@ class Car extends Model
 
     public function scopeStore(Builder $builder, array $data = [])
     {
-        $data["user_id"] = auth()->id();
+        $user = User::find(auth()->id());
+        $data["user_id"] = $user->id;
         $data["status"] = "new";
-        $data['additional_features'] = json_encode($data['additional_features']);
         $data['published_in'] = now();
+        $data['gallery_id'] = $user->gallery ? $user->gallery->id : null;
+
+        if (array_key_exists('main_image', $data)) {
+            $data['main_image'] = $builder->storeFile($data['main_image']);
+        }
+
+        $images_paths = [];
+
+        if (array_key_exists('images', $data)) {
+            if ($data['images']) {
+                foreach ($data['images'] as $image) {
+                    $images_paths[] = $builder->storeFile($image);
+                }
+            }
+        }
+
+        $data['images'] = $images_paths;
 
         $car = $builder->create($data);
 
@@ -305,7 +347,30 @@ class Car extends Model
     public function scopeUpdateModel(Builder $builder, $data, $id)
     {
         $car = $builder->find($id);
-        $data['additional_features'] = json_encode($data['additional_features']);
+        $image = $data['main_image'];
+        $images = $data['images'];
+
+        if (count($images) > 0) {
+            $builder->deleteImages($id);
+            $images_paths = [];
+            foreach ($images as $image) {
+                if (gettype($image) == "object") {
+                    $images_paths[] = $builder->storeFile($image);
+                }
+            }
+            $data['images'] = $images_paths;
+        } else {
+            unset($data['images']);
+        }
+
+        if (gettype($image) == "object") {
+            $builder->deleteMainImage($id);
+            $data['main_image'] = $builder->storeFile($image);
+            $this->deleteLivewireTempImage();
+        } else {
+            unset($data['main_image']);
+            unset($data['status']);
+        }
 
         if ($car) {
             $car->update($data);
@@ -313,6 +378,16 @@ class Car extends Model
         }
 
         return false;
+    }
+
+    public function getAdditionalFeaturesAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    public function setAdditionalFeaturesAttribute($value)
+    {
+        $this->attributes['additional_features'] = json_encode($value);
     }
 
     public function scopeFavoriteModel(Builder $builder, $id)
